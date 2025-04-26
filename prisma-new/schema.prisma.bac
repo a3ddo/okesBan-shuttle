@@ -1,0 +1,105 @@
+// schema.prisma
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma/client"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum ServiceType {
+  SchoolShuttle
+  BusRental
+}
+
+enum ShuttleType {
+  Ashesi
+  AburiGirls
+  MaryMother
+}
+
+enum ShuttleTripType {
+  roundTripShuttle
+  onewayDepatureShuttle
+}
+
+enum BusRentalType {
+  directBooking
+  backofficeBooking
+}
+
+enum BusTripType {
+  roundtripBus
+  onewayDeptureBus
+}
+
+model ServiceRequest {
+  id                       String             @id @map("_id") @default(auto()) @db.ObjectId
+
+  // ---- Legacy / Generic fields ----
+  tripType                 String?            @db.String
+  departureDate            DateTime?          @db.Date
+  departureTime            String?            @db.String
+  deptpickupLocation       String?            @db.String
+  deptdropoffLocation      String?            @db.String
+  returnDate               DateTime?          @db.Date
+  returnTime               String?            @db.String
+  retnpickupLocation       String?            @db.String
+  retndropoffLocation      String?            @db.String
+
+  // ---- Service selector ----
+  serviceType              ServiceType?       
+
+  // ---- School-shuttle fields ----
+  shuttleType              ShuttleType?       
+  shuttleTripType          ShuttleTripType?   
+  departureDateShuttle     DateTime?          @db.Date
+  departureTimeShuttle     String?            @db.String
+  deptpickupShuttle1       String?            @db.String
+  deptdropoffShuttle1      String?            @db.String
+  departureLuggage         Boolean?         
+  departureLuggageQty      Int?               @db.Int
+  returnDateShuttle        DateTime?          @db.Date
+  returnTimeShuttle        String?            @db.String
+  retnpickupShuttle1       String?            @db.String
+  retndropoffShuttle1      String?            @db.String
+  returnLuggage            Boolean?           
+  returnLuggageQty         Int?               @db.Int
+  departureDateShuttleOW   DateTime?          @db.Date
+  departureTimeShuttleOW   String?            @db.String
+  owdeptpickupShuttle1     String?            @db.String
+  owdeptdropoffShuttle1    String?            @db.String
+  owdepartureLuggage       Boolean?          
+  owdepartureLuggageQty    Int?               @db.Int
+
+  // ---- Bus-rental fields ----
+  busrentalType            String?    
+  busTripType              BusTripType?      
+  departureDateBus         DateTime?          @db.Date
+  departureTimeBus         String?            @db.String
+  deptpickupLocationBus    String?            @db.String
+  deptdropoffLocationBus   String?            @db.String
+  returnDateBus            DateTime?          @db.Date
+  returnTimeBus            String?            @db.String
+  retnpickupLocationBus    String?            @db.String
+  retndropoffLocationBus   String?            @db.String
+  owdepartureDateBus       DateTime?          @db.Date
+  owdepartureTimeBus       String?            @db.String
+  owdeptpickupLocationBus  String?            @db.String
+  owdeptdropoffLocationBus String?            @db.String
+
+  // ---- Contact & payment ----
+  firstName                String             @db.String
+  lastName                 String             @db.String
+  emailAddress             String             @db.String
+  phoneNumber              String             @db.String
+  alternatePhoneNumber     String?            @db.String
+  paymentMade              Boolean            
+  paymentMethod            String?            @db.String
+  paymentID                String?            @db.String
+
+  timestamp                DateTime           @default(now())
+}
+

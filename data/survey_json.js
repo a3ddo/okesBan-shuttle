@@ -524,8 +524,8 @@ export const json = {
           validators: [
             {
               type: "expression",
+              expression: "{paymentMade} == true",
               text: "This service is only available to those who have paid.",
-              expression: "{paymentPanel} === true",
             },
           ],
           elements: [

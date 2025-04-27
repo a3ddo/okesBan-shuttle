@@ -1,5 +1,11 @@
 export const json = {
   title: "Okesban Service Request Form",
+  completedHtml: `
+    <div style="text-align:center; padding:20px;">
+      <h2>🎉 Awesome!</h2>
+      <p>Your request has been submitted successfully. We’ll be in touch soon.</p>
+    </div>
+  `,
   pages: [
     {
       name: "TripDetails",
@@ -515,6 +521,13 @@ export const json = {
           visibleIf:
             "{serviceType} = 'SchoolShuttle' or {serviceType} = 'BusRental'",
           title: "Payment Confirmation",
+          validators: [
+            {
+              type: "expression",
+              text: "This service is only available to those who have paid.",
+              expression: "{paymentPanel} === true",
+            },
+          ],
           elements: [
             {
               type: "boolean",

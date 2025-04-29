@@ -1458,6 +1458,13 @@ export const json = {
               description:
                 "Select the method by which you made or completed payment.",
               isRequired: true,
+              validators: [
+                {
+                  type: "expression",
+                  text: "Please complete payment to proceed.",
+                  expression: "{paymentMade} = true",
+                },
+              ],
               choices: [
                 {
                   value: "MTNMomo",

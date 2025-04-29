@@ -8,6 +8,15 @@ import { json } from '../../data/survey_json.js'
 export default function SurveyComponent() {
   const model = new Model(json)
 
+  // Initially hide the Complete button
+  model.showCompleteButton = false
+
+  // Watch for value changes
+  model.onValueChanged.add((sender, options) => {
+    const hasPaid = sender.getValue('paymentMade') === true
+    sender.showCompleteButton = hasPaid
+  })
+
   model.onComplete.add((sender) => {
     const surveyData = sender.data
 

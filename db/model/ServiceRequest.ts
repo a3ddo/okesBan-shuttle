@@ -1,17 +1,9 @@
-// models/ServiceRequest.js
 import mongoose from 'mongoose';
 
 const { Schema, model } = mongoose;
 
-// Enums
-export const ServiceTypeEnum = ["SchoolShuttle", "BusRental"];
-export const ShuttleTypeEnum = ["Ashesi", "AburiGirls", "MaryMother"];
-export const ShuttleTripTypeEnum = ["roundTripShuttle", "onewayDepatureShuttle"];
-export const BusRentalTypeEnum = ["directBooking", "backofficeBooking"];
-export const BusTripTypeEnum = ["roundtripBus", "onewayDeptureBus"];
-
 const ServiceRequestSchema = new Schema({
-    // Legacy / Generic fields
+    // Legacy / Generic trip fields
     tripType: String,
     departureDate: Date,
     departureTime: String,
@@ -22,12 +14,12 @@ const ServiceRequestSchema = new Schema({
     retnpickupLocation: String,
     retndropoffLocation: String,
 
-    // Service selector
-    serviceType: { type: String, enum: ServiceTypeEnum },
+    // Service selection
+    serviceType: String,
 
-    // School-shuttle fields
-    shuttleType: { type: String, enum: ShuttleTypeEnum },
-    shuttleTripType: { type: String, enum: ShuttleTripTypeEnum },
+    // === School Shuttle Fields ===
+    shuttleType: String,
+    shuttleTripType: String,
 
     // Round-trip shuttle
     departureDateShuttle: Date,
@@ -51,9 +43,9 @@ const ServiceRequestSchema = new Schema({
     owdepartureLuggage: Boolean,
     owdepartureLuggageQty: Number,
 
-    // Bus-rental fields
-    busrentalType: { type: String, enum: BusRentalTypeEnum },
-    busTripType: { type: String, enum: BusTripTypeEnum },
+    // === Bus Rental Fields ===
+    busrentalType: String,
+    busTripType: String,
 
     // Round-trip bus
     departureDateBus: Date,
@@ -71,7 +63,7 @@ const ServiceRequestSchema = new Schema({
     owdeptpickupLocationBus: String,
     owdeptdropoffLocationBus: String,
 
-    // Contact & payment
+    // === Contact & Payment ===
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     emailAddress: { type: String, required: true },
@@ -82,12 +74,11 @@ const ServiceRequestSchema = new Schema({
     paymentMethod: String,
     paymentID: String,
 
-    // Auto timestamp
+    // === Metadata ===
     timestamp: { type: Date, default: () => new Date() }
 }, {
-    versionKey: false
+    versionKey: false,
 });
 
-// Ensure model is not recompiled on hot-reload
 const ServiceRequest = mongoose.models.ServiceRequest || model('ServiceRequest', ServiceRequestSchema);
 export default ServiceRequest;

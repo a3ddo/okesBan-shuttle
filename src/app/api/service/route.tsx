@@ -58,26 +58,8 @@ export async function POST(req: Request) {
         await connectToDatabase();
 
         const serviceData = await req.json();
-        const {
-            owdepartureDateBus,
-            busrentalType,
-            busTripType,
-            departureDateShuttle,
-            ...others
-        } = serviceData;
 
-        // Build new document payload
-        const payload: any = {
-            ...others,
-            busrentalType: busrentalType,
-            busTripType: busTripType,
-            timestamp: new Date(),
-        };
-
-        if (owdepartureDateBus) payload.owdepartureDateBus = new Date(owdepartureDateBus);
-        if (departureDateShuttle) payload.departureDateShuttle = new Date(departureDateShuttle);
-
-        const doc = new ServiceRequest(payload);
+        const doc = new ServiceRequest(serviceData);
         const saved = await doc.save();
 
         return NextResponse.json({ message: 'Survey saved successfully', id: saved._id });
@@ -95,6 +77,7 @@ export async function GET() {
         await connectToDatabase();
         // Fetch sorted by newest first
         const responses = await ServiceRequest.find().sort({ timestamp: -1 }).lean();
+
         return NextResponse.json(responses);
     } catch (error) {
         console.error('Failed to fetch survey data:', error);

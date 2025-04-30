@@ -579,7 +579,7 @@ export const json = {
                       isRequired: true,
                       choices: [
                         {
-                          value: "MaryMotherSchool",
+                          value: "MaryMotherReturn",
                           text: "Mary Mother",
                           visibleIf:
                             "{schoolbusShuttleSchoolList} = 'MaarifInternational'",
@@ -671,7 +671,7 @@ export const json = {
                         {
                           value: "AccraMall",
                           text: "Accra Mall",
-                          enableIf: "{shuttleTripType} != 'roundTripShuttle'",
+                          visibleIf: "{shuttleTripType} != 'roundTripShuttle'",
                         },
                         {
                           value: "AshesiCampus",
@@ -1270,7 +1270,6 @@ export const json = {
                     {
                       type: "text",
                       name: "deptpickupLocationBus",
-                      visible: false,
                       title: "Pickup Location",
                       description:
                         "Provide location name, street or address, and closest landmark if any. (Example: Kaneshie, behind Market)",
@@ -1424,6 +1423,10 @@ export const json = {
               description: "Provide a valid phone number",
               isRequired: true,
               inputType: "tel",
+              maskType: "pattern",
+              maskSettings: {
+                pattern: "9999999999",
+              },
               placeholder: "0901234567",
             },
             {
@@ -1433,6 +1436,10 @@ export const json = {
               title: "Phone Number",
               description: "Provide an alternate phone number",
               inputType: "tel",
+              maskType: "pattern",
+              maskSettings: {
+                pattern: "9999999999",
+              },
               placeholder: "0901234567",
             },
           ],
@@ -1458,13 +1465,6 @@ export const json = {
               description:
                 "Select the method by which you made or completed payment.",
               isRequired: true,
-              validators: [
-                {
-                  type: "expression",
-                  text: "Please complete payment to proceed.",
-                  expression: "{paymentMade} = true",
-                },
-              ],
               choices: [
                 {
                   value: "MTNMomo",
@@ -1541,31 +1541,26 @@ export const json = {
             {
               type: "html",
               name: "captchaText",
-              html: "<b>I am not a robot</b>\n<br>\n<p>Please provide the sum of any two numbers from lists A and B below:</P",
+              html: "<b>I am not a robot</b>\n<br>\n<p>Please complete the selection of options for lists A and B below:</P> <li>Select between two to four options for A</li>\n<li>Select between three to five options for B</li>",
             },
             {
-              type: "dropdown",
+              type: "tagbox",
               name: "adderA",
               title: "A",
               isRequired: true,
-              choices: ["3", "5", "7"],
+              choices: ["3", "5", "7", "9", "11"],
+              maxSelectedChoices: 4,
+              minSelectedChoices: 2,
             },
             {
-              type: "dropdown",
+              type: "tagbox",
               name: "adderB",
               startWithNewLine: false,
               title: "B",
               isRequired: true,
-              choices: ["2", "4", "6"],
-            },
-            {
-              type: "text",
-              name: "sumAB",
-              title: "Sum of A and B",
-              isRequired: true,
-              inputType: "number",
-              min: 5,
-              max: 13,
+              choices: ["2", "4", "6", "8", "10"],
+              maxSelectedChoices: 5,
+              minSelectedChoices: 3,
             },
           ],
         },
